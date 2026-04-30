@@ -49,7 +49,7 @@ export function Navbar() {
       className="fixed top-0 left-0 right-0 z-50"
     >
       <div
-        className={`mx-3 md:mx-8 mt-3 rounded-2xl transition-all duration-500 ${
+        className={`mx-3 md:mx-8  rounded-2xl transition-all duration-500 ${
           scrolled
             ? 'backdrop-blur-xl bg-white/5 border border-white/10 shadow-xl shadow-black/20 py-3 px-6'
             : 'py-5 px-8'
@@ -130,7 +130,7 @@ export function Navbar() {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="md:hidden mt-4 glass-card p-4"
+              className="md:hidden  glass-card p-4"
             >
               <div className="flex flex-col gap-3">
                 {navLinks.map(link => (
@@ -149,7 +149,7 @@ export function Navbar() {
 
                 <button
                   onClick={() => scrollTo('#contact')}
-                  className="btn-primary mt-2"
+                  className="btn-primary "
                 >
                   Book Appointment
                 </button>

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 
 const services = [
   {
@@ -40,50 +40,60 @@ const services = [
   {
     icon: '❤️',
     title: 'Emergency Care',
-    desc: '24/7 emergency services for urgent situations. Your pet\'s safety never takes a day off.',
+    desc: "24/7 emergency services for urgent situations. Your pet's safety never takes a day off.",
     color: '#ef4444',
     tag: '24/7'
   },
 ]
 
-function ServiceCard({ service, index }) {
-  const ref = useRef(null)
+// Animation Variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15, delayChildren: 0.2 }
+  }
+}
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed')
-        }
-      },
-      { threshold: 0.1 }
-    )
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } 
+  }
+}
 
-    if (ref.current) observer.observe(ref.current)
-    return () => observer.disconnect()
-  }, [])
-
+function ServiceCard({ service }) {
   return (
     <motion.div
-      ref={ref}
-      className="reveal-on-scroll service-card glass-card p-6 cursor-hover relative overflow-hidden"
-      style={{ transitionDelay: `${index * 0.1}s` }}
-      whileHover={{ y: -10, scale: 1.02 }}
+      variants={cardVariants}
+      whileHover={{ 
+        y: -12, 
+        transition: { duration: 0.4, ease: "easeOut" } 
+      }}
+      className="group relative p-8 rounded-[2rem] border border-white/5 bg-white/[0.03] backdrop-blur-xl overflow-hidden flex flex-col justify-between min-h-[320px]"
     >
-      {/* Glow background */}
+      {/* 1. Dynamic Hover Glow - Follows the 3D aesthetic */}
       <div
-        className="absolute inset-0 opacity-0 hover:opacity-100 transition duration-500"
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
         style={{
-          background: `radial-gradient(circle at top, ${service.color}20, transparent 70%)`,
+          background: `radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), ${service.color}15, transparent 40%)`,
         }}
       />
 
+      {/* 2. Animated Border Gradient (Unique Premium Touch) */}
+      <div className="absolute inset-0 rounded-[2rem] border border-white/10 group-hover:border-white/20 transition-colors duration-500" />
+
       <div className="relative z-10">
-        <div className="flex items-start justify-between mb-4">
+        <div className="flex items-start justify-between mb-8">
+          {/* Icon Container */}
           <div
-            className="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg"
+            className="w-16 h-16 rounded-2xl flex items-center justify-center text-3xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3"
             style={{
-              background: `${service.color}20`,
+              background: `linear-gradient(135deg, ${service.color}30, ${service.color}10)`,
+              boxShadow: `0 8px 20px -6px ${service.color}40`,
               border: `1px solid ${service.color}40`,
             }}
           >
@@ -91,93 +101,100 @@ function ServiceCard({ service, index }) {
           </div>
 
           <span
-            className="font-mono text-xs px-3 py-1 rounded-full"
+            className="font-mono text-[10px] tracking-widest px-3 py-1 rounded-full uppercase font-bold border"
             style={{
               color: service.color,
-              background: `${service.color}20`,
+              borderColor: `${service.color}30`,
+              backgroundColor: `${service.color}05`,
             }}
           >
             {service.tag}
           </span>
         </div>
 
-        <h3 className="font-display text-xl font-bold text-white mb-2">
+        <h3 className="font-display text-2xl font-bold text-white mb-4 tracking-tight group-hover:text-white transition-colors">
           {service.title}
         </h3>
 
-        <p className="font-body text-sm text-white/60 leading-relaxed">
+        <p className="font-body text-sm text-white/50 leading-relaxed mb-6">
           {service.desc}
         </p>
+      </div>
 
-        <div
-          className="mt-5 flex items-center gap-2 text-sm font-medium group"
-          style={{ color: service.color }}
-        >
-          <span className="group-hover:translate-x-1 transition">
-            Learn more
-          </span>
-          <span className="group-hover:translate-x-1 transition">
-            →
-          </span>
-        </div>
+      <div
+        className="relative z-10 mt-auto flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] transition-all duration-300 overflow-hidden"
+        style={{ color: service.color }}
+      >
+        <span className="group-hover:translate-x-1 transition-transform duration-300">
+          Explore Detail
+        </span>
+        <span className="transform group-hover:translate-x-2 transition-transform duration-500">
+          →
+        </span>
+        
+        {/* Underline animation */}
+        <div 
+          className="absolute bottom-[-4px] left-0 h-[1px] w-0 group-hover:w-full transition-all duration-500"
+          style={{ backgroundColor: service.color }}
+        />
       </div>
     </motion.div>
   )
 }
 
 export function ServicesSection() {
-  const titleRef = useRef(null)
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) entry.target.classList.add('revealed')
-      },
-      { threshold: 0.1 }
-    )
-
-    if (titleRef.current) observer.observe(titleRef.current)
-    return () => observer.disconnect()
-  }, [])
-
   return (
-    <section id="services" className="section-3d min-h-screen py-32 px-6 md:px-20 relative">
+    <section id="services" className="relative min-h-screen py-32 px-6 md:px-20 overflow-hidden">
       
-      {/* Background glow */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-forest-500/10 blur-[120px]" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-amber-400/10 blur-[120px]" />
-      </div>
-
-      <div className="content-overlay max-w-6xl mx-auto">
+      {/* Background depth - subtly darkens the background to let 3D model stay visible but not clash with text */}
+      <div className="absolute inset-0 bg-black/20 pointer-events-none -z-10" />
+      
+      <div className="max-w-7xl mx-auto relative z-10">
         
-        {/* Header */}
-        <div ref={titleRef} className="reveal-on-scroll mb-16">
-          <div className="inline-flex items-center gap-2 glass-card px-4 py-2 mb-6">
-            <span className="w-2 h-2 bg-amber-400 rounded-full" />
-            <span className="font-mono text-xs text-amber-400 tracking-widest uppercase">
-              What We Do
+        {/* Header Section */}
+        <motion.div 
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="mb-20 space-y-6"
+        >
+          <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-md border border-white/10 px-4 py-2 rounded-full">
+            <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse" />
+            <span className="font-mono text-[10px] sm:text-xs text-amber-400 tracking-[0.3em] uppercase font-bold">
+              Service Portfolio
             </span>
           </div>
 
-          <h2 className="font-display text-4xl sm:text-5xl md:text-7xl font-black text-white leading-tight mb-4">
-            Complete <br />
-            <span className="gradient-text">veterinary</span> <br />
-            services.
+          <h2 className="font-display text-5xl sm:text-7xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter">
+            Comprehensive <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-forest-400 to-emerald-300">
+              Medical
+            </span> <br />
+            solutions.
           </h2>
 
-          <p className="font-body text-lg text-white/50 max-w-xl">
-            From routine wellness to emergency intervention — we're your full-service animal health partner.
+          <p className="font-body text-lg text-white/40 max-w-2xl border-l border-white/10 pl-8 ml-2">
+            Blending cutting-edge technology with gentle hands. We provide a full spectrum of 
+            care designed to keep your family's story going.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {services.map((service, i) => (
-            <ServiceCard key={service.title} service={service} index={i} />
+        {/* Services Grid */}
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"
+        >
+          {services.map((service) => (
+            <ServiceCard key={service.title} service={service} />
           ))}
-        </div>
+        </motion.div>
       </div>
+
+      {/* Aesthetic Grain Overlay for high-end feel */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')] -z-5" />
     </section>
   )
 }

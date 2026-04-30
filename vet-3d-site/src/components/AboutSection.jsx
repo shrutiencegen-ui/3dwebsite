@@ -1,5 +1,5 @@
-import { useRef, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, useScroll, useSpring } from 'framer-motion'
+import { useRef } from 'react'
 
 const milestones = [
   { year: '2008', title: 'Founded', desc: 'Started as a small clinic with a big dream — every animal deserves expert care.' },
@@ -10,141 +10,127 @@ const milestones = [
 ]
 
 export function AboutSection() {
-  const refs = useRef([])
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) entry.target.classList.add('revealed')
-        })
-      },
-      { threshold: 0.1 }
-    )
-
-    refs.current.forEach(ref => ref && observer.observe(ref))
-    return () => observer.disconnect()
-  }, [])
+  const containerRef = useRef(null)
+  
+  // Create a scroll-linked progress for the timeline line
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end end"]
+  })
+  const scaleY = useSpring(scrollYProgress, { stiffness: 100, damping: 30 })
 
   return (
-    <section id="about" className="section-3d min-h-screen py-24 px-6 md:px-20 relative">
-
-      {/* 🌟 Background glow */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-0 w-80 h-80 bg-forest-500/10 blur-[120px]" />
-        <div className="absolute bottom-0 right-0 w-80 h-80 bg-amber-400/10 blur-[120px]" />
+    <section id="about" ref={containerRef} className="relative min-h-screen py-32 px-6 md:px-20 overflow-hidden">
+      
+      {/* 🌌 Background Depth Layers */}
+      <div className="absolute inset-0 -z-10 pointer-events-none">
+        <div className="absolute top-1/4 -left-20 w-[500px] h-[500px] bg-forest-500/5 blur-[120px] rounded-full" />
+        <div className="absolute bottom-1/4 -right-20 w-[500px] h-[500px] bg-emerald-500/5 blur-[120px] rounded-full" />
       </div>
 
-      <div className="content-overlay max-w-6xl mx-auto">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start">
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-
-          {/* LEFT SIDE */}
-          <div>
-
+          {/* LEFT SIDE: Editorial Content (Span 5) */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="lg:col-span-5 lg:sticky lg:top-32"
+          >
             {/* Badge */}
-            <div
-              ref={el => refs.current[0] = el}
-              className="reveal-on-scroll inline-flex items-center gap-2 glass-card px-4 py-2 mb-6"
-            >
-              <span className="w-2 h-2 bg-forest-400 rounded-full animate-pulse" />
-              <span className="font-mono text-xs text-forest-400 tracking-widest uppercase">
-                Our Story
+            <div className="inline-flex items-center gap-3 bg-white/5 backdrop-blur-xl border border-white/10 px-4 py-2 rounded-full mb-8">
+              <span className="w-1.5 h-1.5 bg-forest-400 rounded-full shadow-[0_0_10px_#22c55e]" />
+              <span className="font-mono text-[10px] text-forest-300 tracking-[0.3em] uppercase font-bold">
+                Legacy of Care
               </span>
             </div>
 
-            {/* Heading */}
-            <h2
-              ref={el => refs.current[1] = el}
-              className="reveal-on-scroll font-display text-4xl sm:text-5xl md:text-6xl font-black text-white leading-tight mb-6"
-            >
+            {/* Heading with Masked Animation */}
+            <h2 className="font-display text-5xl sm:text-7xl font-black text-white leading-[0.9] mb-10 tracking-tighter">
               Healing with <br />
-              <span className="gradient-text italic">heart & science.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-forest-400 to-emerald-200 italic font-light">
+                heart & science.
+              </span>
             </h2>
 
-            {/* Text */}
-            <div
-              ref={el => refs.current[2] = el}
-              className="reveal-on-scroll space-y-4 text-white/60 leading-relaxed text-sm sm:text-base"
-            >
+            {/* Body Text with subtle border-left accent */}
+            <div className="space-y-6 text-white/50 text-lg leading-relaxed border-l border-white/10 pl-8 mb-12">
               <p>
-                PawCare was born from a simple belief: every animal deserves the same quality of care as any human patient.
+                PawCare was born from a simple belief: <span className="text-white/80">every animal deserves the same quality of care</span> as any human patient.
               </p>
               <p>
                 Our team combines decades of expertise with cutting-edge diagnostics. We don’t just treat symptoms — we build lifelong bonds.
               </p>
-              <p>
-                With advanced imaging, on-site pharmacy, and recovery suites, we merge science with compassion.
-              </p>
             </div>
 
-            {/* Values */}
-            <div
-              ref={el => refs.current[3] = el}
-              className="reveal-on-scroll grid grid-cols-3 gap-3 sm:gap-4 mt-8"
-            >
+            {/* Value Tiles */}
+            <div className="grid grid-cols-3 gap-4">
               {[
-                { icon: '🔬', label: 'Evidence' },
-                { icon: '💚', label: 'Care' },
-                { icon: '⚡', label: 'Fast' },
-              ].map(v => (
+                { icon: '🔬', label: 'Evidence', color: 'from-emerald-500/20' },
+                { icon: '💚', label: 'Care', color: 'from-forest-500/20' },
+                { icon: '⚡', label: 'Fast', color: 'from-teal-500/20' },
+              ].map((v, i) => (
                 <motion.div
                   key={v.label}
-                  whileHover={{ y: -6, scale: 1.05 }}
-                  className="glass-card p-4 text-center"
+                  whileHover={{ y: -8, backgroundColor: "rgba(255,255,255,0.08)" }}
+                  className={`bg-white/5 backdrop-blur-lg border border-white/10 p-6 rounded-2xl transition-all duration-300`}
                 >
-                  <div className="text-xl sm:text-2xl mb-2">{v.icon}</div>
-                  <div className="font-mono text-[10px] sm:text-xs text-white/50 tracking-wide">
+                  <div className="text-3xl mb-3">{v.icon}</div>
+                  <div className="font-mono text-[10px] text-white/40 uppercase tracking-widest font-bold">
                     {v.label}
                   </div>
                 </motion.div>
               ))}
             </div>
-          </div>
+          </motion.div>
 
-          {/* RIGHT SIDE TIMELINE */}
-          <div
-            ref={el => refs.current[4] = el}
-            className="reveal-on-scroll relative pl-6 sm:pl-10"
-          >
+          {/* RIGHT SIDE: Interactive Timeline (Span 7) */}
+          <div className="lg:col-span-7 relative pl-8 sm:pl-16">
+            
+            {/* Animated Timeline Line */}
+            <div className="absolute left-0 sm:left-6 top-4 bottom-4 w-[2px] bg-white/5">
+              <motion.div 
+                style={{ scaleY, originY: 0 }}
+                className="w-full h-full bg-gradient-to-b from-forest-400 via-emerald-500 to-transparent shadow-[0_0_15px_rgba(34,197,94,0.5)]"
+              />
+            </div>
 
-            {/* Line */}
-            <div className="absolute left-2 sm:left-4 top-0 bottom-0 w-px bg-gradient-to-b from-forest-500/50 via-forest-500/20 to-transparent" />
-
-            <h3 className="font-display text-xl sm:text-2xl font-bold text-white mb-8">
-              Our Journey
-            </h3>
-
-            <div className="space-y-10">
+            <div className="space-y-16">
               {milestones.map((m, i) => (
                 <motion.div
                   key={m.year}
-                  initial={{ opacity: 0, x: 40 }}
+                  initial={{ opacity: 0, x: 30 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.2 }}
-                  viewport={{ once: true }}
-                  className="relative"
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  className="group relative"
                 >
-                  {/* Dot */}
-                  <div className="timeline-dot absolute -left-[1.2rem] sm:-left-[1.5rem] top-1" />
+                  {/* Floating Year Bubble */}
+                  <div className="absolute -left-[3.2rem] sm:-left-[5.2rem] top-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black border border-white/10 flex items-center justify-center z-10 group-hover:border-forest-400/50 transition-colors duration-500">
+                    <div className="text-[10px] sm:text-xs font-mono font-bold text-forest-400">
+                      {m.year.slice(2)}'
+                    </div>
+                  </div>
 
-                  {/* Card */}
-                  <div className="glass-card p-4 sm:p-5">
-                    <div className="font-mono text-[10px] sm:text-xs text-forest-400 tracking-widest mb-1">
-                      {m.year}
+                  {/* Glass Card */}
+                  <div className="relative bg-white/[0.02] hover:bg-white/[0.05] backdrop-blur-md border border-white/5 p-8 rounded-[2rem] transition-all duration-500 group-hover:translate-x-2">
+                    <div className="font-mono text-[10px] text-forest-400 tracking-[0.3em] uppercase mb-2 font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                      Phase {i + 1}
                     </div>
-                    <div className="font-display text-base sm:text-lg font-bold text-white mb-1">
+                    <h4 className="font-display text-2xl font-bold text-white mb-3 tracking-tight">
                       {m.title}
-                    </div>
-                    <div className="text-sm text-white/50 leading-relaxed">
+                    </h4>
+                    <p className="text-white/40 text-base leading-relaxed group-hover:text-white/60 transition-colors duration-500">
                       {m.desc}
-                    </div>
+                    </p>
                   </div>
                 </motion.div>
               ))}
             </div>
-
           </div>
+
         </div>
       </div>
     </section>

@@ -1,97 +1,107 @@
-import { motion } from 'framer-motion'
+import { motion } from 'framer-motion';
 
 const fadeUp = {
-  initial: { opacity: 0, y: 60 },
+  initial: { opacity: 0, y: 30 },
   animate: { opacity: 1, y: 0 },
-}
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
 
 export function HeroSection() {
   return (
     <section
       id="hero"
-      className="section-3d min-h-screen flex items-center justify-start px-6 md:px-20 pointer-events-none"
+      /* 
+         pt-24 md:pt-32: Adds padding to the top so content doesn't touch the navbar.
+         items-center: Keeps the text vertically centered in the remaining space.
+      */
+      className="relative min-h-screen flex items-center justify-start px-6 md:px-20 pt-24 md:pt-32 overflow-hidden"
     >
-      <div className="content-overlay max-w-3xl pointer-events-auto relative">
+      {/* 
+          Background Overlay: 
+          Deepens the left side to ensure text pops against the 3D Dog/Background 
+      */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent pointer-events-none z-0" />
 
-        {/* Glow background */}
-        <div className="absolute -top-20 -left-20 w-72 h-72 bg-forest-500/20 blur-[120px] rounded-full z-0" />
+      <motion.div 
+        variants={staggerContainer}
+        initial="initial"
+        animate="animate"
+        className="content-overlay max-w-5xl relative z-10 w-full"
+      >
+        {/* Decorative Ambient Glow */}
+        <div className="absolute -top-32 -left-32 w-[500px] h-[500px] bg-forest-500/10 blur-[150px] rounded-full -z-10" />
 
-        {/* Badge */}
+        {/* Badge - Professional Glassmorphism */}
         <motion.div
           variants={fadeUp}
-          initial="initial"
-          animate="animate"
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative z-10 inline-flex items-center gap-2 glass-card px-4 py-2 mb-8"
+          className="inline-flex items-center gap-3 px-4 py-2 mb-8 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl"
         >
-          <span className="w-2 h-2 bg-forest-400 rounded-full animate-pulse" />
-          <span className="font-mono text-xs text-forest-400 tracking-widest uppercase">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-forest-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-forest-400"></span>
+          </span>
+          <span className="font-mono text-[10px] sm:text-xs text-forest-300 tracking-[0.25em] uppercase font-semibold">
             Trusted since 2008
           </span>
         </motion.div>
 
-        {/* Headline */}
+        {/* Headline - Larger scale for professional impact */}
         <motion.h1
           variants={fadeUp}
-          initial="initial"
-          animate="animate"
-          transition={{ duration: 0.9, delay: 0.4 }}
-          className="relative z-10 font-display text-5xl sm:text-6xl md:text-8xl font-black leading-[0.95] mb-6"
+          className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black leading-[0.85] mb-8 tracking-tighter"
         >
-          <span className="text-white">Your pet's</span>
+          <span className="text-white drop-shadow-md">Your pet's</span>
           <br />
-          <span className="gradient-text">health</span>
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-forest-400 via-emerald-400 to-teal-300">
+            health
+          </span>
           <br />
-          <span className="text-white/40 italic text-3xl sm:text-5xl md:text-7xl">
+          <span className="text-white/30 italic font-light text-3xl sm:text-5xl md:text-7xl block mt-4">
             is our story.
           </span>
         </motion.h1>
 
-        {/* Subtitle */}
+        {/* Subtitle - Optimized line-height and width */}
         <motion.p
           variants={fadeUp}
-          initial="initial"
-          animate="animate"
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="relative z-10 font-body text-base sm:text-lg md:text-xl text-white/60 leading-relaxed mb-10 max-w-xl"
+          className="font-body text-lg md:text-xl text-white/60 leading-relaxed mb-12 max-w-xl border-l-2 border-forest-500/30 pl-6"
         >
-          Expert veterinary care with compassion and precision. We treat every animal as family — because they are.
+          Expert veterinary care with compassion and precision. 
+          We treat every animal as family — because they are.
         </motion.p>
 
-        {/* CTA */}
+        {/* CTA Buttons */}
         <motion.div
           variants={fadeUp}
-          initial="initial"
-          animate="animate"
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="relative z-10 flex flex-wrap gap-4"
+          className="flex flex-wrap gap-5"
         >
           <button
-            className="btn-primary cursor-hover"
-            onClick={() =>
-              document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })
-            }
+            className="group relative px-10 py-4 bg-forest-500 hover:bg-forest-400 text-white font-bold rounded-xl transition-all duration-300 transform hover:-translate-y-1 shadow-lg shadow-forest-500/20"
+            onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
           >
-            Book a Visit →
+            Book a Visit 
+            <span className="inline-block ml-2 group-hover:translate-x-1 transition-transform">→</span>
           </button>
 
           <button
-            className="glass-card px-6 sm:px-8 py-3 text-white/80 font-body hover:text-white transition cursor-hover rounded-full"
-            onClick={() =>
-              document.querySelector('#services')?.scrollIntoView({ behavior: 'smooth' })
-            }
+            className="px-10 py-4 bg-white/5 border border-white/10 backdrop-blur-md text-white font-medium hover:bg-white/10 transition-all rounded-xl"
+            onClick={() => document.querySelector('#services')?.scrollIntoView({ behavior: 'smooth' })}
           >
             Explore Services
           </button>
         </motion.div>
 
-        {/* Stats */}
+        {/* Stats Section */}
         <motion.div
           variants={fadeUp}
-          initial="initial"
-          animate="animate"
-          transition={{ duration: 0.8, delay: 1 }}
-          className="relative z-10 flex flex-wrap gap-8 sm:gap-12 mt-14 pt-8 border-t border-white/10"
+          className="flex flex-wrap gap-10 md:gap-20 mt-20 pt-10 border-t border-white/10"
         >
           {[
             { num: '15+', label: 'Years of Care' },
@@ -99,32 +109,32 @@ export function HeroSection() {
             { num: '12', label: 'Specialists' },
           ].map((stat) => (
             <div key={stat.label}>
-              <div className="stat-number">{stat.num}</div>
-              <div className="text-sm text-white/40 mt-1">{stat.label}</div>
+              <div className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+                {stat.num}
+              </div>
+              <div className="text-[10px] md:text-xs text-forest-400 uppercase tracking-[0.2em] mt-1 font-bold">
+                {stat.label}
+              </div>
             </div>
           ))}
         </motion.div>
-      </div>
+      </motion.div>
 
-      {/* Scroll indicator */}
+      {/* Modern Vertical Scroll Indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-        className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        transition={{ delay: 2 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center"
       >
-        <span className="text-[10px] sm:text-xs text-white/30 tracking-widest uppercase">
-          Scroll to explore
-        </span>
-
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          className="w-5 h-8 border border-white/20 rounded-full flex items-start justify-center pt-1.5"
-        >
-          <div className="w-1 h-2 bg-forest-400 rounded-full" />
-        </motion.div>
+        <div className="w-[1px] h-20 bg-gradient-to-b from-transparent via-white/20 to-transparent relative">
+          <motion.div 
+            animate={{ top: ["0%", "100%"], opacity: [0, 1, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute left-1/2 -translate-x-1/2 w-1 h-1 bg-forest-400 rounded-full"
+          />
+        </div>
       </motion.div>
     </section>
-  )
+  );
 }

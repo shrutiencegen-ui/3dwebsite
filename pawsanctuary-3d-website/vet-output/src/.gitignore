@@ -1,0 +1,16 @@
+node_modules
+dist
+build
+coverage
+*.log
+.DS_Store
+.env
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.tsbuildinfo
+package-lock.json

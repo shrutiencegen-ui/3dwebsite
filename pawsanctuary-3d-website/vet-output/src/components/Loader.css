@@ -1,0 +1,85 @@
+/* Elite Preloader Dashboard */
+#loader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-dark);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+/* Luxury loading ring */
+.loader-ring {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 2px solid rgba(197, 160, 89, 0.1);
+  border-top-color: var(--accent);
+  border-left-color: var(--accent);
+  animation: spinner 1.2s infinite cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Progress indicator bar */
+.loader-track {
+  width: 240px;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.loader-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--accent), var(--sage));
+  box-shadow: 0 0 10px var(--accent);
+  transition: width 0.05s linear;
+}
+
+/* Percentage and messages styling */
+.loader-text {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 300;
+  color: var(--text-light);
+  min-height: 2rem;
+  text-align: center;
+}
+
+.loader-percentage {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-top: -0.5rem;
+}
+
+/* Micro-brand mark */
+.loader-logo {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  color: var(--text-light-muted);
+  position: absolute;
+  bottom: 6vh;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.loader-logo span {
+  color: var(--accent);
+}

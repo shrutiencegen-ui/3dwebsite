@@ -1,0 +1,188 @@
+/* ───────── Testimonials Section ───────── */
+.testimonials-section {
+  position: relative;
+  width: 100%;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12vh 6vw;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.testimonials-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+
+/* Centered header */
+.testimonials-header {
+  text-align: center;
+  margin-bottom: 5rem;
+}
+
+.testimonials-header h2 {
+  color: var(--text-light);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.testimonials-header em {
+  color: var(--accent);
+}
+
+.testimonials-header .body-text {
+  color: var(--text-light-muted);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ── Staggered 3-column grid ── */
+.testimonials-stagger-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+/* Offset middle card downward for a cascaded/staggered visual */
+.testimonials-stagger-grid .testimonial-stagger-card:nth-child(2) {
+  margin-top: 3.5rem;
+}
+
+/* Satin glass card */
+.testimonial-stagger-card {
+  position: relative;
+  background: rgba(250, 248, 245, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 28px;
+  padding: 3.5rem 2.8rem 3rem;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 25px 60px rgba(10, 34, 28, 0.06),
+              inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.testimonial-stagger-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 45px 90px rgba(10, 34, 28, 0.12),
+              inset 0 1px 0 rgba(255, 255, 255, 0.98);
+}
+
+/* Large decorative quote mark */
+.testimonial-quote-icon {
+  font-family: var(--font-serif);
+  font-size: 5rem;
+  line-height: 0.8;
+  color: rgba(197, 160, 89, 0.18);
+  position: absolute;
+  top: 1.5rem;
+  left: 2.2rem;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Gold stars */
+.testimonial-stars {
+  display: flex;
+  gap: 4px;
+  font-size: 1.05rem;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 10px rgba(197, 160, 89, 0.4);
+}
+
+/* Quote text */
+.testimonial-text {
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--text-dark);
+  margin-bottom: 2rem;
+  flex-grow: 1;
+}
+
+/* Author row */
+.testimonial-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(197, 160, 89, 0.15);
+}
+
+.testimonial-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sage-dark), var(--accent));
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  border: 2px solid rgba(255,255,255,0.8);
+  box-shadow: 0 4px 14px rgba(10, 34, 28, 0.1);
+  flex-shrink: 0;
+}
+
+.testimonial-author-info { text-align: left; }
+
+.testimonial-name {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-dark);
+}
+
+.testimonial-pet {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-top: 3px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .testimonials-stagger-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .testimonials-stagger-grid .testimonial-stagger-card:nth-child(2) {
+    margin-top: 0;
+  }
+  .testimonials-stagger-grid .testimonial-stagger-card:nth-child(3) {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .testimonials-section { padding: 8vh 5vw; }
+  .testimonials-header { margin-bottom: 3rem; }
+  .testimonials-stagger-grid {
+    grid-template-columns: 1fr;
+  }
+  .testimonials-stagger-grid .testimonial-stagger-card:nth-child(2) {
+    margin-top: 0;
+  }
+  .testimonials-stagger-grid .testimonial-stagger-card:nth-child(3) {
+    display: flex;
+  }
+  .testimonial-stagger-card {
+    padding: 3rem 2rem;
+  }
+}

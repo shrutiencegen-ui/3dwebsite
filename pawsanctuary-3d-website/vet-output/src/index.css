@@ -1,0 +1,265 @@
+/* ═══════════════════════════════════════════════════════
+   PawSanctuary — Global Premium Redesign Stylesheet
+   - Elite typography, brand tokens, and resets
+   - Modern glassmorphism, responsive grid tools, and animations
+   ═══════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  /* Premium Palette */
+  --primary: #0b1b36;           /* Deep Veterinary Blue */
+  --primary-light: #1f5b66;     /* Elegant Teal */
+  --primary-rgb: 11, 27, 54;
+  
+  --sage: #7bc6ab;              /* Mint Green Accent */
+  --sage-light: #c8ede0;
+  --sage-dark: #235c4e;
+  
+  --accent: #d2b99a;            /* Luxury Neutral / Soft Warm Gold */
+  --accent-hover: #e6d3ba;
+  --accent-glow: rgba(40, 220, 210, 0.25); /* Subtle Cyan Glow */
+  
+  --bg-cream: #fcfbfa;          /* Soft Warm White */
+  --bg-cream-dark: #f0ede6;
+  --bg-dark: #050a12;           /* Deep Midnight Blue for premium depth */
+
+  /* Text Colors */
+  --text-dark: #070e17;         /* Deep rich navy for light blocks */
+  --text-dark-muted: rgba(7, 14, 23, 0.68);
+  --text-light: #fcfbfa;        /* Soft warm white for dark blocks */
+  --text-light-muted: rgba(252, 251, 250, 0.75);
+
+  /* Font Families */
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Space Mono', monospace;
+
+  /* Glassmorphism System */
+  --glass-bg-light: rgba(252, 251, 250, 0.78);
+  --glass-border-light: rgba(255, 255, 255, 0.8);
+  --glass-shadow-light: 0 40px 80px rgba(11, 27, 54, 0.08);
+
+  --glass-bg-dark: rgba(5, 10, 18, 0.72);
+  --glass-border-dark: rgba(255, 255, 255, 0.12);
+  --glass-shadow-dark: 0 40px 80px rgba(0, 0, 0, 0.4);
+
+  --transition-smooth: all 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+  --transition-fast: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+/* Base Resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: auto;
+  font-size: 16px;
+  background-color: var(--bg-dark);
+}
+
+body {
+  color: var(--text-dark);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--bg-dark);
+}
+
+/* Layout Elements */
+#canvas-container {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+#scroll-container {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+  width: 100%;
+}
+
+.story-section {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  pointer-events: none;
+  padding: 10vh 0;
+}
+
+.story-section * {
+  pointer-events: auto;
+}
+
+/* Typography Scale */
+.display-xl {
+  font-family: var(--font-serif);
+  font-size: clamp(3.8rem, 8vw, 8rem);
+  font-weight: 300;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.display-lg {
+  font-family: var(--font-serif);
+  font-size: clamp(2.8rem, 5.5vw, 5.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.display-md {
+  font-family: var(--font-serif);
+  font-size: clamp(2.2rem, 4vw, 4rem);
+  font-weight: 300;
+  line-height: 1.1;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: inline-block;
+}
+
+.body-text {
+  font-family: var(--font-sans);
+  font-size: clamp(0.95rem, 1.2vw, 1.12rem);
+  font-weight: 400;
+  line-height: 1.8;
+  color: var(--text-dark-muted);
+}
+
+/* Editorial Styling */
+em {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Global Ambient Gradients for Depth (Fixed background decoration) */
+.gradient-left {
+  position: fixed;
+  left: -10vw;
+  top: -10vh;
+  width: 50vw;
+  height: 120vh;
+  background: radial-gradient(circle, rgba(142, 190, 168, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.gradient-bottom {
+  position: fixed;
+  right: -10vw;
+  bottom: -10vh;
+  width: 60vw;
+  height: 80vh;
+  background: radial-gradient(circle, rgba(197, 160, 89, 0.06) 0%, transparent 75%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Global Premium Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 10px;
+  border: 1px solid var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Glassmorphism Classes */
+.glass-panel-light {
+  background: var(--glass-bg-light);
+  border: 1px solid var(--glass-border-light);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: var(--glass-shadow-light);
+}
+
+.glass-panel-dark {
+  background: var(--glass-bg-dark);
+  border: 1px solid var(--glass-border-dark);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: var(--glass-shadow-dark);
+}
+
+/* GSAP Scroll Trigger Entrance States */
+.gsap-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  will-change: transform, opacity;
+}
+
+.gsap-reveal-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  will-change: transform, opacity;
+}
+
+.gsap-reveal-right {
+  opacity: 0;
+  transform: translateX(50px);
+  will-change: transform, opacity;
+}
+
+/* Premium Buttons Styling */
+.btn-premium {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 1.1rem 2.4rem;
+  border-radius: 0px;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .story-section {
+    padding: 8vh 0;
+  }
+}
+
+@media (max-width: 760px) {
+  html {
+    font-size: 15px;
+  }
+  .story-section {
+    padding: 6vh 0;
+    min-height: auto;
+  }
+}
